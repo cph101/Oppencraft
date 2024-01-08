@@ -124,7 +124,7 @@ jobs:
         with:
           modrinth-id: cA4tDnLw
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          files: "build/libs/${{ env.mod_name }}-${{ env.mod_version }}.jar"
+          files: "build/libs/${{ env.mod_name }}-${{ env.mod_version }}+${{ env.mc_version }}.jar"
           name: "v${{ env.mod_version }}-${{ env.mc_version }}"
           loaders: "quilt"
           game-versions: "${{ env.mc_version }}"
