@@ -1,0 +1,29 @@
+{
+    "display": {
+      "announce_to_chat": false,
+      "background": "oppencraft:textures/gui/advancements/backgrounds/oppencraft.png",
+      "description": {
+        "translate": "advancements.oppencraft.root.description"
+      },
+      "icon": {
+        "item": "oppencraft:oppenhat"
+      },
+      "show_toast": false,
+      "title": {
+        "translate": "advancements.oppencraft.root.title"
+      }
+    },
+    "sends_telementry_event":true,
+    "criteria": {
+      "requirement": {
+        "trigger": "minecraft:tick",
+        "conditions": {
+          "player": {
+            "type_specific": {
+              "type": "player"
+            }
+          }
+        }
+      }
+    }
+  }

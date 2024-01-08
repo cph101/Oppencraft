@@ -1,0 +1,28 @@
+{
+  "parent": "oppencraft:oppencraft/root",
+  "criteria": {
+    "oppenhat": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["oppencraft:oppenhat"]
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.oppencraft.40s_style.description"
+    },
+    "icon": {
+      "item": "oppencraft:oppenhat"
+    },
+    "title": {
+      "translate": "advancements.oppencraft.40s_style.title"
+    },
+    "hidden": false
+  },
+  "sends_telemetry_event": true
+}

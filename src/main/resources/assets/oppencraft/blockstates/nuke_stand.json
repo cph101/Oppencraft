@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=right": { "model": "oppencraft:block/nuke_stand_right" },
+        "type=center": { "model": "oppencraft:block/nuke_stand_center" },
+        "type=left": { "model": "oppencraft:block/nuke_stand_left" }
+    }
+}

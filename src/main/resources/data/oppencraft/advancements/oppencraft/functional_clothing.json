@@ -1,0 +1,21 @@
+{
+  "parent": "oppencraft:oppencraft/40s_style",
+  "criteria": {
+    "what_an_l": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.oppencraft.functional_clothing.description"
+    },
+    "icon": {
+      "item": "oppencraft:oppenhat"
+    },
+    "title": {
+      "translate": "advancements.oppencraft.functional_clothing.title"
+    },
+    "hidden": false
+  },
+  "sends_telemetry_event": true
+}
