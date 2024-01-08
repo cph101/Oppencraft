@@ -55,7 +55,7 @@ jobs:
         uses: christian-draeger/read-properties@1.1.1
         with:
           path: './gradle.properties'
-          properties: 'archives_base_name mod_version minecraft_version' # We'll use these later
+          properties: 'archives_base_name version minecraft_version' # We'll use these later
       - uses: oprypin/find-latest-tag@v1
         with:
           repository: ${{ github.repository }}
@@ -75,7 +75,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: main
-          commit_message: "docs: Update changelog for v${{ steps.mod_properties.outputs.mod_version }}-${{ steps.mod_properties.outputs.minecraft_version }}"
+          commit_message: "docs: Update changelog for v${{ steps.mod_properties.outputs.version }}-${{ steps.mod_properties.outputs.minecraft_version }}"
           file_pattern: CHANGELOG.md
           
   publish-github:
@@ -105,7 +105,7 @@ jobs:
         env:
           mod_name: ${{ needs.mod-build.outputs.archives_base_name }}
           mc_version: ${{ needs.mod-build.outputs.minecraft_version }}
-          mod_version: ${{ needs.mod-build.outputs.mod_version }}
+          mod_version: ${{ needs.mod-build.outputs.version }}
           
   publish-modrinth:
       name: 🟢 Publish to Modrinth
@@ -134,4 +134,4 @@ jobs:
         env:
           mod_name: ${{ needs.mod-build.outputs.archives_base_name }}
           mc_version: ${{ needs.mod-build.outputs.minecraft_version }}
-          mod_version: ${{ needs.mod-build.outputs.mod_version }}
+          mod_version: ${{ needs.mod-build.outputs.version }}
