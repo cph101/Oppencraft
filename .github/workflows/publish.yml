@@ -28,7 +28,7 @@ jobs:
     outputs:
       archives_base_name: ${{ steps.mod_properties.outputs.archives_base_name }}
       minecraft_version: ${{ steps.mod_properties.outputs.minecraft_version }}
-      mod_version: ${{ steps.mod_properties.outputs.version }}
+      version: ${{ steps.mod_properties.outputs.version }}
       changelog_body: ${{ steps.gen_changelog.outputs.changes }}
     steps:
       - name: checkout repository
