@@ -1,6 +1,7 @@
 package com.cph.oppencraft;
 
 import com.cph.oppencraft.block.ModBlocks;
+import com.cph.oppencraft.entity.ModEntities;
 import com.cph.oppencraft.item.ModItems;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
@@ -22,5 +23,6 @@ public class Oppencraft implements ModInitializer {
 		LOGGER.info("Hello world from {}!", mod.metadata().name());
 		ModItems.init();
 		ModBlocks.init();
+		ModEntities.init();
 	}
 }
