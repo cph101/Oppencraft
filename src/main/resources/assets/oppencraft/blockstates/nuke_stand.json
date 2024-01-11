@@ -1,7 +1,8 @@
 {
-    "variants": {
-        "type=right": { "model": "oppencraft:block/nuke_stand_right" },
-        "type=center": { "model": "oppencraft:block/nuke_stand_center" },
-        "type=left": { "model": "oppencraft:block/nuke_stand_left" }
-    }
+  "variants": {
+    "facing=north": { "model": "oppencraft:block/nuke_stand", "uvlock": true },
+    "facing=east":  { "model": "oppencraft:block/nuke_stand", "y":  90, "uvlock": true },
+    "facing=south": { "model": "oppencraft:block/nuke_stand", "y": 0, "uvlock": true },
+    "facing=west":  { "model": "oppencraft:block/nuke_stand", "y": 90, "uvlock": true }
+  }
 }

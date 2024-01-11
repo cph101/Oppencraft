@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "/C/",
+        "C/C"
+    ],
+    "key": {
+        "/": {
+            "item": "minecraft:stick"
+        },
+        "C": {
+            "item": "minecraft:crimson_planks"
+        }
+    },
+    "result": {
+        "item": "oppencraft:nuke_stand",
+        "count": 1
+    }
+}
