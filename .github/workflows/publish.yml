@@ -38,7 +38,7 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
-          java-version: 21
+          java-version: 19
           java-package: 'jdk' # Install JDK
           distribution: 'oracle'
       - name: make gradle wrapper executable
