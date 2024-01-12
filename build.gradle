@@ -7,6 +7,10 @@ archivesBaseName = project.archives_base_name
 version = "${project.version}+${libs.versions.minecraft.get()}"
 group = project.maven_group
 
+loom {
+	accessWidenerPath = file("src/main/resources/oppencraft.accesswidener")
+}
+
 repositories {
 	maven {
 		name = "TerraformersMC"
@@ -15,6 +19,10 @@ repositories {
 	maven {
 		name = "Ladysnake Libs"
 		url = 'https://maven.ladysnake.org/releases'
+	}
+	maven {
+		name = "Modrinth"
+		url = "https://api.modrinth.com/maven"
 	}
 }
 
@@ -31,9 +39,10 @@ dependencies {
 	}
 	*/
 	modImplementation libs.quilt.loader
+
 	modImplementation "dev.emi:trinkets:3.4.1"
-	// QSL is not a complete API; You will need Quilted Fabric API to fill in the gaps.
-	// Quilted Fabric API will automatically pull in the correct QSL version.
+	modImplementation "maven.modrinth:moonlight:IUITd8aF"
+
 	modImplementation libs.quilted.fabric.api
 	// modImplementation libs.bundles.quilted.fabric.api // If you wish to use Fabric API's deprecated modules, you can replace the above line with this one
 }

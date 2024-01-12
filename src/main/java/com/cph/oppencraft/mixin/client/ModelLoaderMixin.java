@@ -1,14 +1,22 @@
 package com.cph.oppencraft.mixin.client;
 
-import com.cph.oppencraft.block.NukeStandUtils;
+import com.cph.oppencraft.block.nuke_stand.NukeStandUtils;
+import net.minecraft.client.render.model.ModelLoader;
+import net.minecraft.client.render.model.json.JsonUnbakedModel;
+import net.minecraft.util.Identifier;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ModelLoader.class)
 public class ModelLoaderMixin {
- 
-    @Inject(method = "loadModelFromJson", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourceManager;getResource(Lnet/minecraft/util/Identifier;)Lnet/minecraft/resource/Resource;"), cancellable = true)
+
+
+    @Inject(method = "loadModelFromJson", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourceManager;openAsReader(Lnet/minecraft/util/Identifier;)Ljava/io/BufferedReader;"), cancellable = true)
     public void loadModelFromJson(Identifier id, CallbackInfoReturnable<JsonUnbakedModel> cir) {
 
-        if (id.toString().contains("_nuke_stand") {
+        if (id.toString().contains("_nuke_stand")) {
             String woodNamespace = id.toString().split(":")[0];
             String woodType = id.toString().split(woodNamespace + ":")[0].split("_")[0];
             String modelJson = NukeStandUtils.generateNukeStandModel(woodType, woodNamespace);
@@ -17,4 +25,6 @@ public class ModelLoaderMixin {
             cir.setReturnValue(model);
         } else return;
     }
+
+
 }

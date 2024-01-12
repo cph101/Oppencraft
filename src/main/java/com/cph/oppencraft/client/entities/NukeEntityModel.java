@@ -348,11 +348,14 @@ public class NukeEntityModel extends EntityModel<NukeEntity> {
                 .uv(18, 0).cuboid(-1.1175F, -8.5372F, 7.5115F, 4.0F, 37.0F, 1.0F, new Dilation(0.0F)), ModelTransform.pivot(-8.8825F, -9.4628F, 7.4885F));
         return TexturedModelData.of(modelData, 256, 256);
     }
-    @Override
-    public void setAngles(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-    }
+
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, float red, float green, float blue, float alpha) {
         amog.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
+    }
+
+    @Override
+    public void setAngles(NukeEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+
     }
 }

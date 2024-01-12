@@ -1,17 +1,19 @@
 {
-	"required": true,
-	"minVersion": "0.8",
-	"package": "com.cph.oppencraft.mixin",
-	"compatibilityLevel": "JAVA_17",
-	"mixins": [
-		"server.LivingEntityMixin",
-		"server.PlayerEntityMixin"
-	],
-	"client": [
-		"client.ArmorFeatureRendererMixin",
-		"client.HeadFeatureRendererMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.cph.oppencraft.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "server.LivingEntityMixin",
+    "server.PlayerEntityMixin"
+  ],
+  "client": [
+    "client.ArmorFeatureRendererMixin",
+    "client.HeadFeatureRendererMixin",
+    "client.ModelLoaderMixin",
+    "client.ModelLoaderMixinTwo"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }
