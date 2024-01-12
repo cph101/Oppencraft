@@ -35,11 +35,16 @@ jobs:
         uses: actions/checkout@v3 # This is effectively git pull
       - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1 # Basically bug check stuff
-      - name: setup JDK 17
+      - name: Setup JDK
         uses: actions/setup-java@v3
         with:
-          java-version: 17
-          distribution: 'microsoft' # Installs java
+          java-version: 20
+          distribution: 'jdk' # Install JDK
+      - name: Setup JRE
+        uses: actions/setup-java@v3
+        with:
+          java-version: 20
+          distribution: 'jre' # Install JRE
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew # Execution workaround for unix-based systems
       - name: Setup gradle
