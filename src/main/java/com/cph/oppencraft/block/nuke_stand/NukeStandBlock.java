@@ -41,6 +41,7 @@ public class NukeStandBlock extends HorizontalFacingBlock {
         return buffer[0];
     }
 
+
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext ctx) {
         Direction dir = state.get(FACING);

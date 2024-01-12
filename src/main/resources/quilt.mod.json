@@ -34,6 +34,10 @@
 			{
 				"id": "minecraft",
 				"versions": ">=1.19.2"
+			},
+			{
+				"id": "moonlightlib",
+				"versions": ">=1.19.2-2.3.5"
 			}
 		]
 	},
