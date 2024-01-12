@@ -45,7 +45,7 @@ jobs:
       - name: Setup gradle
         uses: gradle/gradle-build-action@v3.0.0-beta.3 # Speeds up build time by about 5 mins :P
         with:
-          gradle-version: 8.2.1
+          gradle-version: 7.6
       - name: Execute Gradle build
         run: ./gradlew build --warning-mode all # Builds the mod into a jar file
       - uses: actions/upload-artifact@v4
