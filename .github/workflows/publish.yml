@@ -38,13 +38,15 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
-          java-version: 20
-          distribution: 'jdk' # Install JDK
+          java-version: 21
+          java-package: 'jdk' # Install JDK
+          distribution: 'coretto'
       - name: Setup JRE
         uses: actions/setup-java@v3
         with:
-          java-version: 20
-          distribution: 'jre' # Install JRE
+          java-version: 21
+          java-package: 'jre' # Install JRE
+          distribution: 'coretto'
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew # Execution workaround for unix-based systems
       - name: Setup gradle
