@@ -45,7 +45,7 @@ jobs:
       - name: Setup gradle
         uses: gradle/gradle-build-action@v2 # Speeds up build time by about 5 mins :P
       - name: Execute Gradle build
-        run: ./gradlew build # Builds the mod into a jar file
+        run: ./gradlew genSources compileJava build # Builds the mod into a jar file
       - uses: actions/upload-artifact@v4
         with:
           name: mod-build-files
@@ -58,10 +58,10 @@ jobs:
           properties: 'archives_base_name version minecraft_version' # We'll use these later
       - uses: oprypin/find-latest-tag@v1
         with:
-          repository: ${{ github.repository }}
+          repository: ${{ github.repository }} # Find latest tag
           releases-only: true
         id: previousTag
-      - name: Generate Changelog
+      - name: Generate Changelog # Generate changelog based on previous action
         id: gen_changelog
         uses: requarks/changelog-action@v1
         with:
@@ -71,7 +71,7 @@ jobs:
           reverseOrder: true
           useGitmojis: false
           includeRefIssues: false
-      - name: Commit CHANGELOG.md
+      - name: Commit CHANGELOG.md # Commit changelog lmao
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: main
