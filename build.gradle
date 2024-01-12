@@ -1,9 +1,15 @@
 plugins {
+	id 'base'
 	id 'maven-publish'
 	alias libs.plugins.quilt.loom
 }
 
-archivesBaseName = project.archives_base_name
+base {
+    archivesName = project.archives_base_name
+    distsDirectory = layout.buildDirectory.dir('custom-dist')
+    libsDirectory = layout.buildDirectory.dir('custom-libs')
+}
+
 version = "${project.version}+${libs.versions.minecraft.get()}"
 group = project.maven_group
 
