@@ -3,3 +3,5 @@
 run
 .DS_Store
 build
+.replit
+replit.nix
