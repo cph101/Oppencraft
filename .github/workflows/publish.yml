@@ -24,20 +24,20 @@ permissions:
 jobs:
   mod-build:
     name: 📦 Build mod
-    runs-on: macos-latest # I'm too lazy to setup a system I'm not used to
+    runs-on: macos-13 # I'm too lazy to setup a system I'm not used to
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3 # This is effectively git pull
-      - name: Setup NodeJS
-        with:
-          node-version: 16
-        uses: actions/setup-node@v4.0.1
       - name: Setup JDK 17
         uses: actions/setup-java@v2
         with:
-          java-version: 17
-          distribution: 'microsoft'
-      - name: make gradle wrapper executable
+          java-version: 17.0.8
+          distribution: 'oracle'
+      - name: Validate gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Prepare gradle
+        uses: gradle/gradle-build-action@v2.11.1
+      - name: Make gradle wrapper executable
         run: chmod +x ./gradlew # Execution workaround for unix-based systems
       - name: Execute Gradle build
         run: ./gradlew build # Builds the mod into a jar file
