@@ -53,6 +53,7 @@ jobs:
           path: build/libs/ # Uploads built file as an artifact
   prepare-release:
     name: 📐 Prepare publishing info
+    needs: mod-build
     runs-on: ubuntu-latest
     outputs:
       archives_base_name: ${{ steps.mod_properties.outputs.archives_base_name }}
@@ -94,7 +95,7 @@ jobs:
     name: 🐙 Publish to GitHub
     runs-on: macos-latest
     if: inputs.publish_github
-    needs: [mod-build, prepare-release] 
+    needs: [mod-build, prepare-release]
     steps:
       - name: Download build files
         uses: actions/download-artifact@v4.1.0
@@ -123,7 +124,7 @@ jobs:
       name: 🟢 Publish to Modrinth
       runs-on: macos-latest
       if: inputs.publish_modrinth
-      needs: mod-build
+      needs: [mod-build, prepare-release]
       steps:
       - name: Download build files
         uses: actions/download-artifact@v4.1.0
