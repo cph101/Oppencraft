@@ -39,13 +39,12 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 17
-          distribution: 'oracle'
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew # Execution workaround for unix-based systems
       - name: Setup gradle
         uses: gradle/gradle-build-action@v3.0.0-beta.3 # Speeds up build time by about 5 mins :P
         with:
-          gradle-version: 7.6
+          gradle-version: 7.9
       - name: Execute Gradle build
         run: ./gradlew build --warning-mode all # Builds the mod into a jar file
       - uses: actions/upload-artifact@v4
