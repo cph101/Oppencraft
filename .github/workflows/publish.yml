@@ -41,7 +41,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 17
-          distribution: 'corretto'
+          distribution: 'microsoft'
       - name: Validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1 # Basically bug check stuff
       - name: make gradle wrapper executable
