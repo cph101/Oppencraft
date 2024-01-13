@@ -24,7 +24,7 @@ permissions:
 jobs:
   mod-build:
     name: 📦 Build mod
-    runs-on: macos-latest # I'm too lazy to setup a system I'm not used to
+    runs-on: ubuntu-latest # I'm too lazy to setup a system I'm not used to
     outputs:
       archives_base_name: ${{ steps.mod_properties.outputs.archives_base_name }}
       minecraft_version: ${{ steps.mod_properties.outputs.minecraft_version }}
