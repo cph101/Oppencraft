@@ -24,15 +24,20 @@ permissions:
 jobs:
   mod-build:
     name: 📦 Build mod
-    runs-on: macos-13 # I'm too lazy to setup a system I'm not used to
+    runs-on: ubuntu-latest # I'm too lazy to setup a system I'm not used to
+    outputs:
+      archives_base_name: ${{ steps.mod_properties.outputs.archives_base_name }}
+      minecraft_version: ${{ steps.mod_properties.outputs.minecraft_version }}
+      version: ${{ steps.mod_properties.outputs.version }}
+      changelog_body: ${{ steps.gen_changelog.outputs.changes }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3 # This is effectively git pull
       - name: Setup JDK 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4.0.0
         with:
-          java-version: 17.0.8
           distribution: 'oracle'
+          java-version: 17.0.8
       - name: Validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Prepare gradle
@@ -45,18 +50,6 @@ jobs:
         with:
           name: mod-build-files
           path: build/libs/ # Uploads built file as an artifact
-  prepare-release:
-    name: 📐 Prepare publishing info
-    needs: mod-build
-    runs-on: ubuntu-latest
-    outputs:
-      archives_base_name: ${{ steps.mod_properties.outputs.archives_base_name }}
-      minecraft_version: ${{ steps.mod_properties.outputs.minecraft_version }}
-      version: ${{ steps.mod_properties.outputs.version }}
-      changelog_body: ${{ steps.gen_changelog.outputs.changes }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3 # Here we go again
       - name: Read value from Properties-file
         id: mod_properties
         uses: christian-draeger/read-properties@1.1.1
@@ -89,7 +82,7 @@ jobs:
     name: 🐙 Publish to GitHub
     runs-on: macos-latest
     if: inputs.publish_github
-    needs: [mod-build, prepare-release]
+    needs: mod-build
     steps:
       - name: Download build files
         uses: actions/download-artifact@v4.1.0
@@ -110,15 +103,15 @@ jobs:
           version-type: ${{ inputs.release_as_beta && 'beta' || 'release' }}
           changelog: ${{ needs.mod-build.outputs.changelog_body }}
         env:
-          mod_name: ${{ needs.prepare-release.outputs.archives_base_name }}
-          mc_version: ${{ needs.prepare-release.outputs.minecraft_version }}
-          mod_version: ${{ needs.prepare-release.outputs.version }}
+          mod_name: ${{ needs.mod-build.outputs.archives_base_name }}
+          mc_version: ${{ needs.mod-build.outputs.minecraft_version }}
+          mod_version: ${{ needs.mod-build.outputs.version }}
           
   publish-modrinth:
       name: 🟢 Publish to Modrinth
       runs-on: macos-latest
       if: inputs.publish_modrinth
-      needs: [mod-build, prepare-release]
+      needs: mod-build
       steps:
       - name: Download build files
         uses: actions/download-artifact@v4.1.0
@@ -141,6 +134,6 @@ jobs:
           dependencies: |
                       twkfQtEc # Moonlightlib
         env:
-          mod_name: ${{ needs.prepare-release.outputs.archives_base_name }}
-          mc_version: ${{ needs.prepare-release.outputs.minecraft_version }}
-          mod_version: ${{ needs.prepare-release.outputs.version }}
+          mod_name: ${{ needs.mod-build.outputs.archives_base_name }}
+          mc_version: ${{ needs.mod-build.outputs.minecraft_version }}
+          mod_version: ${{ needs.mod-build.outputs.version }}
