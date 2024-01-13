@@ -42,7 +42,7 @@ dependencies {
 	modImplementation libs.quilt.loader
 
 	modImplementation "dev.emi:trinkets:3.4.1"
-	modImplementation "maven.modrinth:moonlight:IUITd8aF"
+	modImplementation "maven.modrinth:moonlight:iuitd8af"
 
 	modImplementation libs.quilted.fabric.api
 	// modImplementation libs.bundles.quilted.fabric.api // If you wish to use Fabric API's deprecated modules, you can replace the above line with this one
