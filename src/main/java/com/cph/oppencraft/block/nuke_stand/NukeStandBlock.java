@@ -115,7 +115,7 @@ public class NukeStandBlock extends HorizontalFacingBlock {
     public String getTranslationKey() {
         String originalTransKey = super.getTranslationKey();
         String[] splitWoodType = originalTransKey.split("\\.");
-        String commonWoodType = splitWoodType[splitWoodType.length - 1];
+        String commonWoodType = splitWoodType[splitWoodType.length - 1].replaceAll("_", " ");
         return NukeStandUtils.capitalizeEveryWord(commonWoodType.toLowerCase()).replace("_nuke_stand", " Nuke Stand");
     }
 }
