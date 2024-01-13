@@ -3,16 +3,12 @@ package com.cph.oppencraft.item;
 import com.cph.oppencraft.Oppencraft;
 import com.cph.oppencraft.block.ModBlocks;
 import com.cph.oppencraft.item.oppenhat.OppenhatRegistrar;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.quiltmc.qsl.item.group.api.QuiltItemGroup;
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
-
-import java.util.Collection;
 
 public class ModItems {
 

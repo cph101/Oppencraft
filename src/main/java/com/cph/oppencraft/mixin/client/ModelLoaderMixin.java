@@ -15,15 +15,19 @@ public class ModelLoaderMixin {
 
     @Inject(method = "loadModelFromJson", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourceManager;openAsReader(Lnet/minecraft/util/Identifier;)Ljava/io/BufferedReader;"), cancellable = true)
     public void loadModelFromJson(Identifier id, CallbackInfoReturnable<JsonUnbakedModel> cir) {
-
-        if (id.toString().contains("_nuke_stand")) {
-            String woodNamespace = id.toString().split(":")[0];
-            String woodType = id.toString().split(woodNamespace + ":")[0].split("_")[0];
-            String modelJson = NukeStandUtils.generateNukeStandModel(woodType, woodNamespace);
-            JsonUnbakedModel model = JsonUnbakedModel.deserialize(modelJson);
-            model.id = id.toString();
-            cir.setReturnValue(model);
+        String woodNamespace;
+        String woodType;
+        if (id.toString().contains("nuke_stand_")) {
+            woodNamespace = id.getNamespace();
+            woodType = id.getPath().split("ock/nuke_stand_")[1].replace(".json", "");
+        } else if (id.toString().contains("_nuke_stand.json") && id.toString().contains("item")) {
+            woodNamespace = id.getNamespace();
+            woodType = id.getPath().split("item/")[1].replace("_nuke_stand.json", "");
         } else return;
+        String modelJson = NukeStandUtils.generateNukeStandBlockModel(woodType, woodNamespace);
+        JsonUnbakedModel model = JsonUnbakedModel.deserialize(modelJson);
+        model.id = id.toString();
+        cir.setReturnValue(model);
     }
 
 

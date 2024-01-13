@@ -10,8 +10,7 @@
   "client": [
     "client.ArmorFeatureRendererMixin",
     "client.HeadFeatureRendererMixin",
-    "client.ModelLoaderMixin",
-    "client.ModelLoaderMixinTwo"
+    "client.ModelLoaderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

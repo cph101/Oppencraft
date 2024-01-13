@@ -110,4 +110,12 @@ public class NukeStandBlock extends HorizontalFacingBlock {
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayer().getHorizontalFacing().getOpposite());
     }
+
+    @Override
+    public String getTranslationKey() {
+        String originalTransKey = super.getTranslationKey();
+        String[] splitWoodType = originalTransKey.split("\\.");
+        String commonWoodType = splitWoodType[splitWoodType.length - 1];
+        return NukeStandUtils.capitalizeEveryWord(commonWoodType.toLowerCase()).replace("_nuke_stand", " Nuke Stand");
+    }
 }
