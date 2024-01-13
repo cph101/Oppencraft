@@ -47,7 +47,7 @@ jobs:
         with:
           gradle-version: 8.2.1
       - name: Execute Gradle build
-        run: ./gradlew build --warning-mode all # Builds the mod into a jar file
+        run: ./gradlew build --warning-mode all --debug --stacktrace # Builds the mod into a jar file
       - uses: actions/upload-artifact@v4
         with:
           name: mod-build-files
