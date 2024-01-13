@@ -24,12 +24,7 @@ permissions:
 jobs:
   mod-build:
     name: 📦 Build mod
-    runs-on: ubuntu-latest # I'm too lazy to setup a system I'm not used to
-    outputs:
-      archives_base_name: ${{ steps.mod_properties.outputs.archives_base_name }}
-      minecraft_version: ${{ steps.mod_properties.outputs.minecraft_version }}
-      version: ${{ steps.mod_properties.outputs.version }}
-      changelog_body: ${{ steps.gen_changelog.outputs.changes }}
+    runs-on: macos-latest # I'm too lazy to setup a system I'm not used to
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3 # This is effectively git pull
@@ -50,14 +45,23 @@ jobs:
         uses: gradle/gradle-build-action@v2.11.1 # Speeds up build time by about 5 mins :P
         with:
           gradle-version: 7.6
-      - name: Validate gradle wrapper (again)
-        uses: gradle/wrapper-validation-action@v1 # Basically bug check stuff
       - name: Execute Gradle build
         run: ./gradlew build # Builds the mod into a jar file
       - uses: actions/upload-artifact@v4
         with:
           name: mod-build-files
           path: build/libs/ # Uploads built file as an artifact
+  prepare-release:
+    name: 📐 Prepare publishing info
+    runs-on: ubuntu-latest
+    outputs:
+      archives_base_name: ${{ steps.mod_properties.outputs.archives_base_name }}
+      minecraft_version: ${{ steps.mod_properties.outputs.minecraft_version }}
+      version: ${{ steps.mod_properties.outputs.version }}
+      changelog_body: ${{ steps.gen_changelog.outputs.changes }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3 # Here we go again
       - name: Read value from Properties-file
         id: mod_properties
         uses: christian-draeger/read-properties@1.1.1
@@ -90,7 +94,7 @@ jobs:
     name: 🐙 Publish to GitHub
     runs-on: macos-latest
     if: inputs.publish_github
-    needs: mod-build
+    needs: [mod-build, prepare-release] 
     steps:
       - name: Download build files
         uses: actions/download-artifact@v4.1.0
@@ -111,9 +115,9 @@ jobs:
           version-type: ${{ inputs.release_as_beta && 'beta' || 'release' }}
           changelog: ${{ needs.mod-build.outputs.changelog_body }}
         env:
-          mod_name: ${{ needs.mod-build.outputs.archives_base_name }}
-          mc_version: ${{ needs.mod-build.outputs.minecraft_version }}
-          mod_version: ${{ needs.mod-build.outputs.version }}
+          mod_name: ${{ needs.prepare-release.outputs.archives_base_name }}
+          mc_version: ${{ needs.prepare-release.outputs.minecraft_version }}
+          mod_version: ${{ needs.prepare-release.outputs.version }}
           
   publish-modrinth:
       name: 🟢 Publish to Modrinth
@@ -142,6 +146,6 @@ jobs:
           dependencies: |
                       twkfQtEc # Moonlightlib
         env:
-          mod_name: ${{ needs.mod-build.outputs.archives_base_name }}
-          mc_version: ${{ needs.mod-build.outputs.minecraft_version }}
-          mod_version: ${{ needs.mod-build.outputs.version }}
+          mod_name: ${{ needs.prepare-release.outputs.archives_base_name }}
+          mc_version: ${{ needs.prepare-release.outputs.minecraft_version }}
+          mod_version: ${{ needs.prepare-release.outputs.version }}
