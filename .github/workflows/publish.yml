@@ -24,19 +24,18 @@ permissions:
 jobs:
   mod-build:
     name: 📦 Build mod
-    runs-on: ubuntu-latest # I'm too lazy to setup a system I'm not used to
+    runs-on: macos-latest # I'm too lazy to setup a system I'm not used to
     outputs:
       archives_base_name: ${{ steps.mod_properties.outputs.archives_base_name }}
       minecraft_version: ${{ steps.mod_properties.outputs.minecraft_version }}
       version: ${{ steps.mod_properties.outputs.version }}
-      changelog_body: ${{ steps.gen_changelog.outputs.changes }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3 # This is effectively git pull
       - name: Setup JDK 17
         uses: actions/setup-java@v4.0.0
         with:
-          distribution: 'oracle'
+          distribution: 'corretto'
           java-version: 17.0.8
       - name: Validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
@@ -56,27 +55,6 @@ jobs:
         with:
           path: './gradle.properties'
           properties: 'archives_base_name version minecraft_version' # We'll use these later
-      - uses: oprypin/find-latest-tag@v1
-        with:
-          repository: ${{ github.repository }} # Find latest tag
-          releases-only: true
-        id: previousTag
-      - name: Generate Changelog # Generate changelog based on previous action
-        id: gen_changelog
-        uses: requarks/changelog-action@v1
-        with:
-          token: ${{ github.token }}
-          fromTag: ${{ github.ref_name }}
-          toTag: ${{ steps.previousTag.outputs.tag }}
-          reverseOrder: true
-          useGitmojis: false
-          includeRefIssues: false
-      - name: Commit CHANGELOG.md # Commit changelog lmao
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          branch: main
-          commit_message: "docs: Update changelog for v${{ steps.mod_properties.outputs.version }}-${{ steps.mod_properties.outputs.minecraft_version }}"
-          file_pattern: CHANGELOG.md
           
   publish-github:
     name: 🐙 Publish to GitHub
@@ -101,7 +79,6 @@ jobs:
           name: "v${{ env.mod_version }}-${{ env.mc_version }}"
           version: "v${{ env.mod_version }}-${{ env.mc_version }}"
           version-type: ${{ inputs.release_as_beta && 'beta' || 'release' }}
-          changelog: ${{ needs.mod-build.outputs.changelog_body }}
         env:
           mod_name: ${{ needs.mod-build.outputs.archives_base_name }}
           mc_version: ${{ needs.mod-build.outputs.minecraft_version }}
@@ -130,7 +107,6 @@ jobs:
           game-versions: "${{ env.mc_version }}"
           version: "v${{ env.mod_version }}-${{ env.mc_version }}"
           version-type: ${{ inputs.release_as_beta && 'beta' || 'release' }}
-          changelog: ${{ needs.mod-build.outputs.changelog_body }}
           dependencies: |
                       twkfQtEc # Moonlightlib
         env:
