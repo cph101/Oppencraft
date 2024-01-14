@@ -36,7 +36,7 @@ jobs:
         uses: actions/setup-java@v4.0.0
         with:
           distribution: 'corretto'
-          java-version: 17.0.8
+          java-version: 17
       - name: Validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Prepare gradle
