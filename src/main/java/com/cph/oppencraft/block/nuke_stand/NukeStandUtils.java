@@ -1,33 +1,43 @@
 package com.cph.oppencraft.block.nuke_stand;
 
+import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
+import net.minecraft.util.Identifier;
+
+import java.util.ArrayList;
+
 public class NukeStandUtils {
-  public static String generateNukeStandBlockModel(String woodType, String woodNamespace) {
+  public static String generateNukeStandBlockModel(WoodType woodType) {
     return "{\n" +
                    "  \"parent\": \"oppencraft:block/nuke_stand\",\n" +
                    "  \"textures\": {\n" +
-                   "    \"0\": \"" + woodNamespace + ":block/" + woodType + "_planks\",\n" +
-                   "    \"particle\": \"" + woodNamespace + ":block/" + woodType + "_planks\"\n" +
+                   "    \"0\": \"" + getPlanksId(woodType) + "\",\n" +
+                   "    \"particle\": \"" + getPlanksId(woodType) + "\"\n" +
                    "  }\n" +
                    "}";
   }
 
-  public static String generateNukeStandItemModel(String woodType, String woodNamespace) {
+  public static String generateNukeStandItemModel(WoodType woodType) {
     return "{\n" +
-            "  \"parent\": \"oppencraft:item/nuke_stand\",\n" +
+            "  \"parent\": \"oppencraft:block/nuke_stand\",\n" +
             "  \"textures\": {\n" +
-            "    \"0\": \"" + woodNamespace + ":block/" + woodType + "_planks\",\n" +
-            "    \"particle\": \"" + woodNamespace + ":block/" + woodType + "_planks\"\n" +
+            "    \"0\": \"" + getPlanksId(woodType) + "\",\n" +
+            "    \"particle\": \"" + getPlanksId(woodType) + "\"\n" +
             "  }\n" +
             "}";
   }
 
-  public static String generateBlockstates(String woodType, String namespace) {
+  public static String generateBlockstates(Identifier nukeStandId) {
+    String nukeStandRawId = nukeStandId.toString().split(":")[1];
     return "{\n" +
             "  \"variants\": {\n" +
-            "    \"facing=north\": {\"model\": \"" + namespace + ":block/nuke_stand_" + woodType + "\", \"uvlock\": true},\n" +
-            "    \"facing=east\":  {\"model\": \"" + namespace + ":block/nuke_stand_" + woodType + "\", \"y\":  90, \"uvlock\": true},\n" +
-            "    \"facing=south\": {\"model\": \"" + namespace + ":block/nuke_stand_" + woodType + "\", \"y\": 0, \"uvlock\": true},\n" +
-            "    \"facing=west\":  {\"model\": \"" + namespace + ":block/nuke_stand_" + woodType + "\", \"y\": 90, \"uvlock\": true}\n" +
+            "    \"facing=north\": {\"model\": \"oppencraft:block/" + nukeStandRawId + "\", \"uvlock\": true},\n" +
+            "    \"facing=east\":  {\"model\": \"oppencraft:block/" + nukeStandRawId + "\", \"y\":  90, \"uvlock\": true},\n" +
+            "    \"facing=south\": {\"model\": \"oppencraft:block/" + nukeStandRawId + "\", \"y\": 0, \"uvlock\": true},\n" +
+            "    \"facing=west\":  {\"model\": \"oppencraft:block/" + nukeStandRawId + "\", \"y\": 90, \"uvlock\": true}\n" +
             "  }\n" +
             "}";
   }
@@ -41,5 +51,99 @@ public class NukeStandUtils {
       capitalizeWord.append(first.toUpperCase()).append(afterfirst).append(" ");
     }
     return capitalizeWord.toString().trim();
+  }
+
+  public static JsonObject createShapedRecipeJson(ArrayList<Character> keys, ArrayList<Identifier> items, ArrayList<String> type, ArrayList<String> pattern, Identifier output, String recipeGroup) {
+    //Creating a new json object, where we will store our recipe.
+    JsonObject json = new JsonObject();
+    //The "type" of the recipe we are creating. In this case, a shaped recipe.
+    json.addProperty("type", "minecraft:crafting_shaped");
+    json.addProperty("group", recipeGroup);
+    //This creates:
+    //"type": "minecraft:crafting_shaped"
+
+    //We create a new Json Element, and add our crafting pattern to it.
+    JsonArray jsonArray = new JsonArray();
+    jsonArray.add(pattern.get(0));
+    jsonArray.add(pattern.get(1));
+    jsonArray.add(pattern.get(2));
+    //Then we add the pattern to our json object.
+    json.add("pattern", jsonArray);
+    //This creates:
+    //"pattern": [
+    //  "###",
+    //  " | ",
+    //  " | "
+    //]
+
+    //Next we need to define what the keys in the pattern are. For this we need different JsonObjects per key definition, and one main JsonObject that will contain all of the defined keys.
+    JsonObject individualKey; //Individual key
+    JsonObject keyList = new JsonObject(); //The main key object, containing all the keys
+
+    for (int i = 0; i < keys.size(); ++i) {
+      individualKey = new JsonObject();
+      individualKey.addProperty(type.get(i), items.get(i).toString()); //This will create a key in the form "type": "input", where type is either "item" or "tag", and input is our input item.
+      keyList.add(keys.get(i) + "", individualKey); //Then we add this key to the main key object.
+      //This will add:
+      //"#": { "tag": "c:copper_ingots" }
+      //and after that
+      //"|": { "item": "minecraft:sticks" }
+      //and so on.
+    }
+
+    json.add("key", keyList);
+    //And so we get:
+    //"key": {
+    //  "#": {
+    //    "tag": "c:copper_ingots"
+    //  },
+    //  "|": {
+    //    "item": "minecraft:stick"
+    //  }
+    //},
+
+    //Finally, we define our result object
+    JsonObject result = new JsonObject();
+    result.addProperty("item", output.toString());
+    result.addProperty("count", 1);
+    json.add("result", result);
+    //This creates:
+    //"result": {
+    //  "item": "modid:copper_pickaxe",
+    //  "count": 1
+    //}
+
+    return json;
+  }
+
+  public static Identifier getPlanksId(WoodType woodType) {
+    String[] plankTransKeySplit = woodType.planks.getTranslationKey().split("\\.");
+    String plankId = plankTransKeySplit[plankTransKeySplit.length - 1];
+    return new Identifier(woodType.getNamespace(), "block/" + plankId);
+  }
+
+  private static Identifier getPurePlanksId(WoodType woodType) {
+    String[] plankTransKeySplit = woodType.planks.getTranslationKey().split("\\.");
+    String plankId = plankTransKeySplit[plankTransKeySplit.length - 1];
+    return new Identifier(woodType.getNamespace(), plankId);
+  }
+
+  public static JsonObject generateNukeStandRecipe(WoodType woodType, Identifier resultId) {
+    return createShapedRecipeJson(
+            Lists.newArrayList(
+                    '⬡',
+                    '|',
+                    '-'
+            ), //The keys we are using for the input items/tags.
+            Lists.newArrayList(getPurePlanksId(woodType), new Identifier("stick"), new Identifier("stick")), //The items/tags we are using as input.
+            Lists.newArrayList("item", "item", "item"), //Whether the input we provided is a tag or an item.
+            Lists.newArrayList(
+                    "   ",
+                    "| |",
+                    "⬡-⬡"
+            ), //The crafting pattern.
+            resultId,
+            "wooden_nuke_stand"
+    );
   }
 }
