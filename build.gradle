@@ -4,11 +4,9 @@ plugins {
 	id 'base'
 }
 
-base {
-	archivesBaseName = project.archives_base_name
-	version = "${project.version}+${libs.versions.minecraft.get()}"
-	group = project.maven_group
-}
+archivesBaseName = project.archives_base_name
+version = "${project.version}+${libs.versions.minecraft.get()}"
+group = project.maven_group
 
 loom {
 	accessWidenerPath = file("src/main/resources/oppencraft.accesswidener")
