@@ -31,7 +31,7 @@ import java.util.List;
 
     public static final Logger LOGGER = LoggerFactory.getLogger("oppencraft");
 
-    public static List<String> NUKE_STAND_LIST = new ArrayList<>();
+    public static List<WoodType> NUKE_STAND_LIST = new ArrayList<>();
 
     @Override
     public void onInitializeClient() {
@@ -53,9 +53,7 @@ import java.util.List;
 
         // get wood type list
 
-        BlockSetAPI.getBlockSet(WoodType.class).getValues().forEach(woodType -> {
-            NUKE_STAND_LIST.add(woodType.getNamespace() + ":" + woodType.getTypeName());
-        });
+        NUKE_STAND_LIST.addAll(BlockSetAPI.getBlockSet(WoodType.class).getValues());
 
         ClientResourceProvider generator = new ClientResourceProvider();
         generator.register();

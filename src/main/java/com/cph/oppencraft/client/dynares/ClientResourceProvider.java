@@ -2,14 +2,17 @@ package com.cph.oppencraft.client.dynares;
 
 import com.cph.oppencraft.block.nuke_stand.NukeStandUtils;
 import com.cph.oppencraft.client.OppencraftClient;
+import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.mehvahdjukaar.moonlight.api.resources.pack.DynClientResourcesProvider;
 import net.mehvahdjukaar.moonlight.api.resources.pack.DynamicTexturePack;
+import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
 import net.mehvahdjukaar.moonlight.core.Moonlight;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.pack.ResourcePackProfile;
 import net.minecraft.util.Identifier;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ClientResourceProvider extends DynClientResourcesProvider {
@@ -19,7 +22,7 @@ public class ClientResourceProvider extends DynClientResourcesProvider {
 
     @Override
     public Logger getLogger() {
-        return null;
+        return LogManager.getLogger();
     }
 
     @Override
@@ -27,16 +30,19 @@ public class ClientResourceProvider extends DynClientResourcesProvider {
         return false;
     }
 
-    @Override
+    @Override @SuppressWarnings("deprecation")
     public void regenerateDynamicAssets(ResourceManager resourceManager) {
         JsonParser parser = new JsonParser();
-        OppencraftClient.NUKE_STAND_LIST.forEach(amogus -> {
-            String woodName = amogus.split(":")[1];
-            String woodNamespace = amogus.split(":")[0];
-            JsonObject nukeStandBlockState = parser.parse(NukeStandUtils.generateBlockstates(woodName, woodNamespace)).getAsJsonObject();
-            JsonObject nukeStandItemModel = parser.parse(NukeStandUtils.generateNukeStandBlockModel(woodName, woodNamespace)).getAsJsonObject();
-            this.dynamicPack.addBlockState(new Identifier(woodNamespace, woodName + "_nuke_stand"), nukeStandBlockState);
-            this.dynamicPack.addItemModel(new Identifier(woodNamespace, woodName + "_nuke_stand"), nukeStandItemModel);
+        OppencraftClient.NUKE_STAND_LIST.forEach(woodType -> {
+            if (woodType.planks != null) {
+                Identifier nukeStandId = new Identifier("oppencraft", woodType.getVariantId("%s_nuke_stand"));
+                JsonObject nukeStandBlockState = parser.parse(NukeStandUtils.generateBlockstates(nukeStandId)).getAsJsonObject();
+                JsonObject nukeStandItemModel = parser.parse(NukeStandUtils.generateNukeStandItemModel(woodType)).getAsJsonObject();
+                JsonObject nukeStandBlockModel = parser.parse(NukeStandUtils.generateNukeStandItemModel(woodType)).getAsJsonObject();
+                this.dynamicPack.addBlockState(nukeStandId, nukeStandBlockState);
+                this.dynamicPack.addItemModel(nukeStandId, nukeStandItemModel);
+                this.dynamicPack.addBlockModel(nukeStandId, nukeStandBlockModel);
+            }
         });
     }
 }
