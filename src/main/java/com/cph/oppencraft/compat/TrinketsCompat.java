@@ -1,7 +1,7 @@
 package com.cph.oppencraft.compat;
 
 import com.cph.oppencraft.client.render.OppenhatTrinketRenderer;
-import com.cph.oppencraft.item.ModItems;
+import com.cph.oppencraft.init.ModItems;
 import com.cph.oppencraft.item.oppenhat.OppenhatTrinket;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketComponent;

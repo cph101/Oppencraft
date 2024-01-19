@@ -1,6 +1,7 @@
-package com.cph.oppencraft.entity;
+package com.cph.oppencraft.init;
 
 import com.cph.oppencraft.Oppencraft;
+import com.cph.oppencraft.entity.NukeEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
@@ -9,7 +10,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.quiltmc.qsl.entity.api.QuiltEntityTypeBuilder;
 
-public class ModEntities {
+public interface ModEntities {
     public static final EntityType<NukeEntity> NUKE_ENTITY = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier(Oppencraft.MOD_ID, "nuke"),

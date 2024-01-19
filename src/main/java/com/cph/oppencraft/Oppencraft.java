@@ -1,26 +1,32 @@
 package com.cph.oppencraft;
 
 import com.cph.oppencraft.block.ModBlocks;
-import com.cph.oppencraft.entity.ModEntities;
-import com.cph.oppencraft.item.ModItems;
+import com.cph.oppencraft.init.ModEntities;
+import com.cph.oppencraft.init.ModParticles;
+import com.cph.oppencraft.init.ModSoundEvents;
+import com.cph.oppencraft.init.ModItems;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Oppencraft implements ModInitializer {
-	public static final Logger LOGGER = LoggerFactory.getLogger("oppencraft");
-	public static final String MOD_NAME = "Oppencraft";
+	public static Logger LOGGER;
+	public static String MOD_NAME;
 
-	public static final String MOD_ID = MOD_NAME.toLowerCase();
-
-	CharSequence joiner = ", ";
+	public static String MOD_ID;
 
 	@Override
 	public void onInitialize(ModContainer mod) {
-		LOGGER.info("Hello world from {}!", mod.metadata().name());
+		MOD_NAME = mod.metadata().name();
+		MOD_ID = mod.metadata().id();
+		LOGGER = LoggerFactory.getLogger(MOD_ID);
+		LOGGER.info("Hello world from {}!", MOD_NAME);
 		ModItems.init();
 		ModBlocks.init();
 		ModEntities.init();
+		ModSoundEvents.initialize();
+		ModParticles.registerFactories();
+		ModParticles.init();
 	}
 }

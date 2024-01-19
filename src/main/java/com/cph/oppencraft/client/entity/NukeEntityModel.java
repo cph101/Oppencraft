@@ -1,4 +1,4 @@
-package com.cph.oppencraft.client.entities;
+package com.cph.oppencraft.client.entity;
 
 import com.cph.oppencraft.entity.NukeEntity;
 import com.mojang.blaze3d.vertex.VertexConsumer;

@@ -1,13 +1,11 @@
 package com.cph.oppencraft.client.dynares;
 
 import com.cph.oppencraft.block.nuke_stand.NukeStandUtils;
-import com.cph.oppencraft.client.OppencraftClient;
-import com.google.common.collect.Lists;
+import com.cph.oppencraft.OppencraftClient;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.mehvahdjukaar.moonlight.api.resources.pack.DynClientResourcesProvider;
 import net.mehvahdjukaar.moonlight.api.resources.pack.DynamicTexturePack;
-import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
 import net.mehvahdjukaar.moonlight.core.Moonlight;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.pack.ResourcePackProfile;

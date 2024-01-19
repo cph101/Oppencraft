@@ -20,7 +20,7 @@
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
 			"init": "com.cph.oppencraft.Oppencraft",
-			"client": "com.cph.oppencraft.client.OppencraftClient"
+			"client_init": "com.cph.oppencraft.OppencraftClient"
 		},
 		"depends": [
 			{
